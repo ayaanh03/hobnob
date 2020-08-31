@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from UserProfile.models import *
-from UserProfile.serializer import *
+from UserProfile.serializers import *
 
 
 class ProfileView(APIView):
