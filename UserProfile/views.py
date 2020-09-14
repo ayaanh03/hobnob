@@ -1,15 +1,22 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework import generics
 
-from UserProfile.models import *
-from UserProfile.serializers import *
+from .forms import ProfileForm
 
-class ProfileView(generics.ListCreateAPIView):
-    queryset = Profile2.objects.all()
-    serializer_class  = Profile2Serializer
+def get_profile(request):
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = ProfileForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            # process the data in form.cleaned_data as required
+            # ...
+            # redirect to a new URL:
+            return HttpResponseRedirect('/thanks/')
 
-class InterestView(generics.ListCreateAPIView):
-    queryset = Interests.objects.all()
-    serializer_class  = InterestsSerializer
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = ProfileForm()
+
+    return render(request, 'name.html', {'form': form})
